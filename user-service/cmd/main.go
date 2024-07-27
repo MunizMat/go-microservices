@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/MunizMat/microservices/user-service/internal/clients"
 	"github.com/MunizMat/microservices/user-service/internal/routes"
@@ -16,9 +15,7 @@ func main() {
 
 	clients.Init()
 
-	port := os.Getenv("PORT")
-
-	fmt.Println("Server running at http://localhost:", port, " 🚀")
+	fmt.Println("Server running at http://localhost:", utils.Environment.PORT, " 🚀")
 
 	router := gin.Default()
 
@@ -30,5 +27,5 @@ func main() {
 	// User
 	router.POST("/users", routes.UserPost)
 
-	router.Run(fmt.Sprintf(":%s", port))
+	router.Run(fmt.Sprintf(":%s", utils.Environment.PORT))
 }

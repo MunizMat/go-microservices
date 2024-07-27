@@ -8,6 +8,7 @@ import (
 type Env struct {
 	RABBIT_MQ_URL string
 	REDIS_URL     string
+	PORT          string
 }
 
 var (
@@ -25,6 +26,7 @@ func ParseEnvsOrPanic() {
 
 	envVariables["REDIS_URL"] = os.Getenv("REDIS_URL")
 	envVariables["RABBIT_MQ_URL"] = os.Getenv("RABBIT_MQ_URL")
+	envVariables["PORT"] = os.Getenv("PORT")
 
 	for varName, value := range envVariables {
 		if value == "" {
@@ -35,5 +37,6 @@ func ParseEnvsOrPanic() {
 	Environment = &Env{
 		RABBIT_MQ_URL: envVariables["RABBIT_MQ_URL"],
 		REDIS_URL:     envVariables["REDIS_URL"],
+		PORT:          envVariables["PORT"],
 	}
 }
