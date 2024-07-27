@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/MunizMat/api/internal/clients"
-	"github.com/MunizMat/api/internal/models"
+	"github.com/MunizMat/microservices/user-service/internal/clients"
+	"github.com/MunizMat/microservices/user-service/internal/models"
 )
 
 func CreateUser(user *models.User) error {

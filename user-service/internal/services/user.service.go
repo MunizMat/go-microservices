@@ -1,8 +1,8 @@
 package services
 
 import (
-	"github.com/MunizMat/api/internal/models"
-	"github.com/MunizMat/api/internal/repositories"
+	"github.com/MunizMat/microservices/user-service/internal/models"
+	"github.com/MunizMat/microservices/user-service/internal/repositories"
 )
 
 func CreateUser(user *models.User) error {

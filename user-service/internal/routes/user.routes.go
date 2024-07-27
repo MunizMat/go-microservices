@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/MunizMat/api/internal/models"
-	"github.com/MunizMat/api/internal/services"
+	"github.com/MunizMat/microservices/user-service/internal/models"
+	"github.com/MunizMat/microservices/user-service/internal/services"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"

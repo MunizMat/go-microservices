@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/MunizMat/api/internal/clients"
-	"github.com/MunizMat/api/internal/routes"
+	"github.com/MunizMat/microservices/user-service/internal/clients"
+	"github.com/MunizMat/microservices/user-service/internal/routes"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )

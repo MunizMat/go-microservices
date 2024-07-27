@@ -1,4 +1,4 @@
-module github.com/MunizMat/api
+module github.com/MunizMat/microservices/user-service
 
 go 1.22.5
 
