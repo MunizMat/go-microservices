@@ -22,8 +22,10 @@ services:
     ports:
       - "3501:3501"
     depends_on:
-      - redis
-      - rabbitmq
+      redis:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
 
   rabbitmq:
     container_name: go-rabbit-mq
