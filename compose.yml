@@ -1,0 +1,17 @@
+services: 
+  user-service:
+    container_name: go-user-service
+    build: "./user-service"
+    env_file: 
+      - ./user-service/.env
+    ports:
+      - "3500:3500"
+    depends_on:
+      - redis
+  
+  redis: 
+    container_name: go-redis
+    image: "redis/redis-stack:latest"
+    ports:
+    - "6379:6379"
+    - "8001:8001"
