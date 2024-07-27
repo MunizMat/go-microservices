@@ -6,11 +6,14 @@ import (
 
 	"github.com/MunizMat/microservices/user-service/internal/clients"
 	"github.com/MunizMat/microservices/user-service/internal/routes"
+	"github.com/MunizMat/microservices/user-service/internal/utils"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+	utils.ParseEnvsOrPanic()
+
 	clients.Init()
 
 	port := os.Getenv("PORT")

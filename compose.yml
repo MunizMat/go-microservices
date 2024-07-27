@@ -1,3 +1,5 @@
+version: '3'
+
 services: 
   user-service:
     container_name: go-user-service
@@ -8,7 +10,26 @@ services:
       - "3500:3500"
     depends_on:
       - redis
-  
+      - rabbitmq
+
+  email-service:
+    container_name: go-email-service
+    build: "./email-service"
+    env_file: 
+      - ./email-service/.env
+    ports:
+      - "3501:3501"
+    depends_on:
+      - redis
+      - rabbitmq
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    env_file: 
+      - ./.env
   redis: 
     container_name: go-redis
     image: "redis/redis-stack:latest"
