@@ -9,8 +9,10 @@ services:
     ports:
       - "3500:3500"
     depends_on:
-      - redis
-      - rabbitmq
+      redis:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
 
   email-service:
     container_name: go-email-service
@@ -24,12 +26,19 @@ services:
       - rabbitmq
 
   rabbitmq:
+    container_name: go-rabbit-mq
     image: rabbitmq:3-management
     ports:
       - "5672:5672"
       - "15672:15672"
     env_file: 
       - ./.env
+    healthcheck:
+      test: rabbitmq-diagnostics status
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      
   redis: 
     container_name: go-redis
     image: "redis/redis-stack:latest"
