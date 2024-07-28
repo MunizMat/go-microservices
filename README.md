@@ -1,20 +1,44 @@
-## Microservices in practice 
+# Microservices in Practice With Go 
 
-- [English](#english)
-- [Português](#português)
+This is a simple implementation of a user creation flow that enables two applications to communicate with each other through a message broker, which, in this case, is RabbitMQ. This repository consists of two applications / services, a "user" service and a "email" service. Each service is a Go application that runs indpendently.
 
+The user service acts as a producer that publishes messages to a RabbitMQ queue whenever a user is created. The queue messages are then consumed by the email service.
 
-### English
-This is a simple implementation of a user creation flow that uses microservice architecture to enable two applications to communicate with each other through a message broker, which, in this case, is RabbitMQ. This repository consists of two main directories ```/user``` and ```/email```.
+This is a very simple implementation and I am aware that there are easier ways to perform this. However, my focus here, besides familiarizing myself with Go, was to better understand microservice architecture and messaging systems through a real implementation.
 
-Both directories are applications built with Go that run independently. The user service is a also producer that publishes messages to RabbitMQ whenever a user is created. The messages are held in a "email" queue from where the email service consumes messages. 
+## Technologies
+- Redis
+- Go
+- RabbitMQ
+- Docker
 
-This is a very simple implementation, and my focus here, besides familiarizing myself with Go, was to better understand microservice architecture and messaging systems through a real implementation
+## Running Locally
+Prerequisites:
+- Docker
+- An email + password that can be used for SMTP authentication
 
+Start by cloning the repository:
 
-### Português
-Esta é uma implementação simples de um fluxo de criação de usuário que utiliza arquitetura de microsserviços para permitir que duas aplicações se comuniquem por meio de um sistema de mensageria, que, neste caso, é o RabbitMQ. Este repositório consiste em dois diretórios principais ```/user``` e ```/email```.
+```
+git clone https://github.com/MunizMat/go-microservices.git
+```
 
-Ambos os diretórios são aplicações construídas com Go que rodam de forma independente. O aplicação de usuário também é um produtor que publica mensagens no RabbitMQ sempre que um usuário é criado. As mensagens são mantidas em uma fila "email" de onde a aplicação de email consome as mensagens. 
+Then setup the necessary .env files by running the following commands in your terminal:
+```
+echo "RABBITMQ_DEFAULT_USER=\nRABBITMQ_DEFAULT_PASS=" > .env
 
-Esta é uma implementação muito simples, e meu foco aqui, além de me familiarizar com Go, foi entender melhor a arquitetura de microsserviços e sistemas de mensageria através de uma implementação real
+cd user-service && echo "PORT=\nREDIS_URL=\nRABBIT_MQ_URL=" > .env
+
+cd ../email-service && echo "SMTP_SENDER_EMAIL=\SMTP_SENDER_PASSWORD=\nRABBIT_MQ_URL=" > .env
+```
+
+Use docker compose to run the applications:
+
+```
+docker compose up --build
+```
+
+You can also use the .dev compose file, which uses [Air](https://github.com/air-verse/air) to run the apps, enabling live reloading:
+```
+docker compose -f compose.dev.yml up --build
+```
