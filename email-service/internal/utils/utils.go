@@ -6,8 +6,9 @@ import (
 )
 
 type Env struct {
-	RABBIT_MQ_URL string
-	REDIS_URL     string
+	RABBIT_MQ_URL        string
+	SMTP_SENDER_EMAIL    string
+	SMTP_SENDER_PASSWORD string
 }
 
 var (
@@ -23,7 +24,8 @@ func FailOnError(err error, msg string) {
 func ParseEnvsOrPanic() {
 	envVariables := make(map[string]string)
 
-	envVariables["REDIS_URL"] = os.Getenv("REDIS_URL")
+	envVariables["SMTP_SENDER_EMAIL"] = os.Getenv("SMTP_SENDER_EMAIL")
+	envVariables["SMTP_SENDER_PASSWORD"] = os.Getenv("SMTP_SENDER_PASSWORD")
 	envVariables["RABBIT_MQ_URL"] = os.Getenv("RABBIT_MQ_URL")
 
 	for varName, value := range envVariables {
@@ -33,7 +35,8 @@ func ParseEnvsOrPanic() {
 	}
 
 	Environment = &Env{
-		RABBIT_MQ_URL: envVariables["RABBIT_MQ_URL"],
-		REDIS_URL:     envVariables["REDIS_URL"],
+		RABBIT_MQ_URL:        envVariables["RABBIT_MQ_URL"],
+		SMTP_SENDER_EMAIL:    envVariables["SMTP_SENDER_EMAIL"],
+		SMTP_SENDER_PASSWORD: envVariables["SMTP_SENDER_PASSWORD"],
 	}
 }

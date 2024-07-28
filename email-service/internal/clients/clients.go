@@ -1,11 +1,14 @@
 package clients
 
 import (
+	"encoding/json"
+	"fmt"
 	"log"
 
+	"github.com/MunizMat/microservices/email-service/internal/models"
+	"github.com/MunizMat/microservices/email-service/internal/services"
 	"github.com/MunizMat/microservices/email-service/internal/utils"
 	"github.com/rabbitmq/amqp091-go"
-	"github.com/redis/go-redis/v9"
 )
 
 type RabbitMQClient struct {
@@ -13,23 +16,21 @@ type RabbitMQClient struct {
 }
 
 var (
-	Redis    *redis.Client
 	RabbitMQ *RabbitMQClient
 )
 
-func createRedisClient() {
-	options, err := redis.ParseURL(utils.Environment.REDIS_URL)
-
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-
-	Redis = redis.NewClient(options)
-}
-
 func recieveQueueMessage(messages <-chan amqp091.Delivery) {
 	for message := range messages {
-		log.Printf("Received a message: %s", message.Body)
+		var user models.User
+
+		err := json.Unmarshal(message.Body, &user)
+
+		if err != nil {
+			fmt.Println("Error receiving message: ", err.Error())
+			continue
+		}
+
+		services.SendEmail(&user)
 	}
 }
 
@@ -76,6 +77,6 @@ func createRabbitMQClient() {
 }
 
 func Init() {
-	createRedisClient()
+
 	createRabbitMQClient()
 }
