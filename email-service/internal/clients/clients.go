@@ -47,7 +47,18 @@ func createRabbitMQClient() {
 
 	defer channel.Close()
 
-	messages, err := channel.Consume("user-creation", "", true, false, false, false, nil)
+	userCreationQueue, err := channel.QueueDeclare(
+		"user-creation",
+		false,
+		false,
+		false,
+		false,
+		nil,
+	)
+
+	utils.FailOnError(err, "Failed to declare a queue")
+
+	messages, err := channel.Consume(userCreationQueue.Name, "", true, false, false, false, nil)
 
 	utils.FailOnError(err, "Failed to register RabbitMQ consumer")
 
