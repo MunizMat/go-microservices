@@ -1,8 +1,10 @@
 package services
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
+	"time"
 
 	"github.com/MunizMat/microservices/user-service/internal/clients"
 	"github.com/MunizMat/microservices/user-service/internal/models"
@@ -25,7 +27,11 @@ func CreateUser(user *models.User) error {
 		return err
 	}
 
-	clients.RabbitMQ.Channel.Publish("", clients.RabbitMQ.UserCreationQueue.Name, false, false, amqp091.Publishing{
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+
+	defer cancel()
+
+	err = clients.RabbitMQ.Channel.PublishWithContext(ctx, "", clients.RabbitMQ.UserCreationQueue.Name, false, false, amqp091.Publishing{
 		ContentType: "application/json",
 		Body:        userJson,
 	})

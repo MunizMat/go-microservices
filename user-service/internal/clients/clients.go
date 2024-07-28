@@ -10,6 +10,7 @@ import (
 
 type RabbitMQClient struct {
 	Channel           *amqp091.Channel
+	Connection        *amqp091.Connection
 	UserCreationQueue *amqp091.Queue
 }
 
@@ -34,13 +35,9 @@ func createRabbitMQClient() {
 
 	utils.FailOnError(err, "Failed to connect to RabbitMQ")
 
-	defer connection.Close()
-
 	channel, err := connection.Channel()
 
 	utils.FailOnError(err, "Failed to open RabbitMQ channel")
-
-	defer channel.Close()
 
 	userCreationQueue, err := channel.QueueDeclare(
 		"user-creation",
@@ -56,6 +53,7 @@ func createRabbitMQClient() {
 	RabbitMQ = &RabbitMQClient{
 		Channel:           channel,
 		UserCreationQueue: &userCreationQueue,
+		Connection:        connection,
 	}
 
 }

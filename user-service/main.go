@@ -15,7 +15,10 @@ func main() {
 
 	clients.Init()
 
-	fmt.Println("Server running at http://localhost:", utils.Environment.PORT, " 🚀")
+	defer clients.RabbitMQ.Connection.Close()
+	defer clients.RabbitMQ.Channel.Close()
+
+	fmt.Println("Server up and running at http://localhost:", utils.Environment.PORT, " 🚀")
 
 	router := gin.Default()
 
