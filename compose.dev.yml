@@ -10,6 +10,8 @@ services:
       - ./user-service/.env
     ports:
       - "3500:3500"
+    volumes:
+      - ./user-service:/root/
     depends_on:
       redis:
         condition: service_started
@@ -25,6 +27,8 @@ services:
       - ./email-service/.env
     ports:
       - "3501:3501"
+    volumes:
+      - ./email-service:/root/
     depends_on:
       redis:
         condition: service_started
