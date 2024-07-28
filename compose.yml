@@ -37,7 +37,7 @@ services:
       - ./.env
     healthcheck:
       test: rabbitmq-diagnostics status
-      interval: 30s
+      interval: 10s
       timeout: 10s
       retries: 5
       
